@@ -1,0 +1,125 @@
+
+@font-face {
+    font-display: swap; 
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 300;
+    src: url('../fonts/rubik-v28-latin-300.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-display: swap; 
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 400;
+    src: url('../fonts/rubik-v28-latin-regular.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-display: swap; 
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 500;
+    src: url('../fonts/rubik-v28-latin-500.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-display: swap; 
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 600;
+    src: url('../fonts/rubik-v28-latin-600.woff2') format('woff2');
+  }
+  
+  @font-face {
+    font-display: swap; 
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 700;
+    src: url('../fonts/rubik-v28-latin-700.woff2') format('woff2');
+  }
+  /* rubik-800 - latin */
+  @font-face {
+    font-display: swap; 
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 800;
+    src: url('../fonts/rubik-v28-latin-800.woff2') format('woff2');
+  }
+  @font-face {
+    font-display: swap; 
+    font-family: 'Rubik';
+    font-style: normal;
+    font-weight: 900;
+    src: url('../fonts/rubik-v28-latin-900.woff2') format('woff2');
+  }
+
+
+
+  *{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body{
+    font-family: "Rubik" , sans-serif;
+  }
+  .container{
+    width: 1440px;
+    margin: 0 auto;
+  }
+  li,a{
+    text-decoration: none;
+    list-style: none;
+  }
+  button, select, input{
+    border: none;
+    background: none;
+    outline: none;
+  }
+
+  .header__container{
+    height: 60px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .header__navbox{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+  }
+  .header__buttonbox{
+    display: flex;
+    gap: 30px;
+  }
+  .header__buttonbox-shop{
+    display: flex;
+    gap: 15px;
+    cursor: pointer;  
+    font-size: 20px;
+  }
+  .fa-basket-shopping{
+    color: #6E38F7;
+  }
+  .header__buttonbox-search{
+    color: gray;
+    font-size: 20px;
+  }
+  .header__navbox-item{
+    position: relative;
+  }
+  .header__navbox-item-link::after{
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 0px;
+    width: 0px;
+    height: 2px;
+    background: #000;
+    transition: width 0.3s ease-in-out;
+  }
+  .header__navbox-item-link:hover::after{
+    width: 100%;  
+  }
