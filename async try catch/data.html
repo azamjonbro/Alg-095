@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="uz">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Async / Await Visualization</title>
+    <style>
+        body {
+            font-family: Inter, system-ui, sans-serif;
+            padding: 20px;
+            background: #0f172a;
+            color: #e6eef8
+        }
+
+        h1 {
+            font-size: 20px;
+            margin: 0 0 10px
+        }
+
+        p {
+            margin: 6px 0 16px;
+            color: #cbd5e1
+        }
+
+        .controls {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 12px
+        }
+
+        button {
+            background: #1f2937;
+            color: #e6eef8;
+            border: 0;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer
+        }
+
+        .board {
+            display: grid;
+            gap: 10px
+        }
+
+        .task {
+            background: #071127;
+            padding: 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .label {
+            width: 90px
+        }
+
+        .bar-wrap {
+            flex: 1;
+            background: #021022;
+            height: 18px;
+            border-radius: 9px;
+            position: relative;
+            overflow: hidden
+        }
+
+        .bar {
+            height: 100%;
+            width: 0%;
+            border-radius: 9px;
+            background: linear-gradient(90deg, #06b6d4, #60a5fa)
+        }
+
+        .status {
+            width: 120px;
+            text-align: right;
+            font-size: 13px;
+            color: #94a3b8
+        }
+
+        .log {
+            background: #021021;
+            border-radius: 8px;
+            padding: 10px;
+            height: 180px;
+            overflow: auto;
+            border: 1px solid rgba(255, 255, 255, 0.03)
+        }
+
+        .row {
+            display: flex;
+            gap: 12px
+        }
+
+        .small {
+            font-size: 13px;
+            color: #94a3b8
+        }
+
+        .note {
+            color: #9ae6b4
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Async / Await - vizual demo</h1>
+    <p>Bu sahifa sizga async/await kodining <strong>qachon kutayotganini</strong> va qaysi vazifa parallel yoki
+        ketma-ket bajarilishini ko'rsatadi.</p>
+
+    <div class="controls">
+        <button id="run-seq">Run sequential (await)</button>
+        <button id="run-par">Run parallel (Promise.all)</button>
+        <button id="run-step">Run with step logs</button>
+        <button id="reset">Reset</button>
+    </div>
+
+    <div class="board">
+        <div class="task">
+            <div class="label">Task A</div>
+            <div class="bar-wrap">
+                <div id="barA" class="bar"></div>
+            </div>
+            <div id="statusA" class="status">idle</div>
+        </div>
+        <div class="task">
+            <div class="label">Task B</div>
+            <div class="bar-wrap">
+                <div id="barB" class="bar"></div>
+            </div>
+            <div id="statusB" class="status">idle</div>
+        </div>
+        <div class="task">
+            <div class="label">Task C</div>
+            <div class="bar-wrap">
+                <div id="barC" class="bar"></div>
+            </div>
+            <div id="statusC" class="status">idle</div>
+        </div>
+    </div>
+
+    <h3 style="margin-top:14px">Console (logs)</h3>
+    <div id="log" class="log"></div>
+
+    <script>
+        // Helper: sleep that updates a progress bar visually
+        function timedTask(name, ms, barEl, statusEl) {
+            return new Promise((resolve) => {
+                const start = performance.now();
+                statusEl.textContent = 'running';
+                barEl.style.width = '0%';
+                const step = () => {
+                    const now = performance.now();
+                    const p = Math.min(1, (now - start) / ms);
+                    barEl.style.width = (p * 100) + '%';
+                    if (p < 1) { requestAnimationFrame(step); }
+                };
+                requestAnimationFrame(step);
+                setTimeout(() => {
+                    statusEl.textContent = 'done';
+                    barEl.style.width = '100%';
+                    resolve(name + ' finished');
+                }, ms);
+            });
+        }
+
+        const barA = document.getElementById('barA');
+        const barB = document.getElementById('barB');
+        const barC = document.getElementById('barC');
+        const statusA = document.getElementById('statusA');
+        const statusB = document.getElementById('statusB');
+        const statusC = document.getElementById('statusC');
+        const logEl = document.getElementById('log');
+
+        function log(txt) {
+            const t = new Date().toLocaleTimeString();
+            logEl.innerHTML += `<div><span class="small">[${t}]</span> ${txt}</div>`;
+            logEl.scrollTop = logEl.scrollHeight;
+        }
+
+        async function demoSequential() {
+            log('Start sequential demo');
+            // each await waits for previous to finish
+            const a = await timedTask('A', 5000, barA, statusA);
+            log('await returned: ' + a + '  (now next line runs)');
+
+            const b = await timedTask('B', 6000, barB, statusB);
+            log('await returned: ' + b);
+
+            const c = await timedTask('C', 3000, barC, statusC);
+            log('await returned: ' + c);
+
+            log('Sequential demo finished');
+        }
+
+        async function demoParallel() {
+            log('Start parallel demo');
+            // start tasks without awaiting immediately -> they run in parallel
+            const pA = timedTask('A', 2000, barA, statusA);
+            const pB = timedTask('B', 1000, barB, statusB);
+            const pC = timedTask('C', 3000, barC, statusC);
+
+            log('Started A, B, C (not awaited yet)');
+
+            // now await all to finish
+            const results = await Promise.all([pA, pB, pC]);
+            log('Promise.all returned: ' + results.join(' | '));
+            log('Parallel demo finished');
+        }
+
+        async function demoStep() {
+            log('Start step demo (shows when JS is waiting)');
+
+            log('Line 1: start A');
+            const pA = timedTask('A', 2000, barA, statusA);
+
+            log('Line 2: await pA  --> JS will pause inside this async function until pA resolves');
+            const resA = await pA; // <-- this is the key line: the function pauses here
+            log('After await pA: ' + resA);
+
+            log('Line 3: start B and C in parallel');
+            const pB = timedTask('B', 1000, barB, statusB);
+            const pC = timedTask('C', 3000, barC, statusC);
+
+            log('Line 4: await Promise.race([pB, pC]) to see which finishes first');
+            const first = await Promise.race([pB, pC]);
+            log('Promise.race returned (first finished): ' + first);
+
+            log('Now await remaining ones with Promise.all');
+            const rest = await Promise.all([pB, pC]);
+            log('Promise.all returned: ' + rest.join(' | '));
+
+            log('Step demo finished');
+        }
+
+        function reset() {
+            [barA, barB, barC].forEach(b => b.style.width = '0%');
+            [statusA, statusB, statusC].forEach(s => s.textContent = 'idle');
+            logEl.innerHTML = '';
+        }
+
+        document.getElementById('run-seq').addEventListener('click', () => { reset(); demoSequential(); });
+        document.getElementById('run-par').addEventListener('click', () => { reset(); demoParallel(); });
+        document.getElementById('run-step').addEventListener('click', () => { reset(); demoStep(); });
+        document.getElementById('reset').addEventListener('click', reset);
+
+        // Small note for students
+        log('Tip: "await" only pauses the surrounding async function — it does NOT block the whole page. Look at the timestamps to see when function execution yields.');
+    </script>
+</body>
+
+</html>

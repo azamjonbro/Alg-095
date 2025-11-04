@@ -1,0 +1,41 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+body{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #f1f1f1;
+}
+.login{
+    width: 200px;
+    height: 200px;
+    background: url("https://picsum.photos/id/300/200/200");
+    position: relative;
+}
+
+.login::after{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url("https://picsum.photos/id/400/200/200");
+    position: relative;
+    top: -200px;
+    left: 0;
+    /* opacity: 0.5; */
+}
+.login::before{
+    content: "";
+    display: block;
+    width: 100%;
+    height: 100%;
+    background: url("https://picsum.photos/id/500/200/200");
+    position: relative;
+    top: 100px;
+    left: 0;
+    /* opacity: 0.3; */
+}

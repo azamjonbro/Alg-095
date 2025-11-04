@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+  <meta charset="UTF-8">
+  <title>Async / Await - Fetch misol</title>
+</head>
+<body style="font-family:sans-serif; padding:20px;">
+  <h2>Async / Await ni tushunish (fetch misolida)</h2>
+  <button id="run">Ma'lumot yuklash</button>
+  <pre id="log" style="background:#111;color:#0f0;padding:10px;border-radius:8px;height:200px;overflow:auto;"></pre>
+
+  <script>
+    const log = (msg) => {
+      const time = new Date().toLocaleTimeString();
+      document.getElementById('log').textContent += `[${time}] ${msg}\n`;
+    }
+
+    async function getUser() {
+      log("1️⃣ getUser chaqirildi");
+      log("2️⃣ fetch boshlanmoqda (API dan ma'lumot olinmoqda...)");
+
+      // fetch – bu Promise qaytaradi
+      const res = await fetch("https://jsonplaceholder.typicode.com/users/1");
+      log("3️⃣ fetch tugadi (javob keldi), endi JSON ga aylantiryapmiz...");
+
+      // res.json() ham Promise qaytaradi
+      const user = await res.json();
+      log("4️⃣ JSON tayyor ✅");
+
+      log(`5️⃣ Natija: ${user.name} (${user.email})`);
+      log("6️⃣ Barcha ishlar tugadi ✅");
+    }
+
+    document.getElementById("run").addEventListener("click", () => {
+      document.getElementById("log").textContent = "";
+      getUser();
+    });
+  </script>
+</body>
+</html>
