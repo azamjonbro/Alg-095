@@ -5,6 +5,7 @@ import HomePage from './views/Home/Home'
 import Error from "./components/Error"
 import About from './views/About/About'
 import Product from './views/Product/Product'
+import OnePage from './views/OnePage'
 function App() {
   return (
     <>
@@ -14,6 +15,8 @@ function App() {
         <Route path="/about" element={<About/>} />
         <Route path="/services" element={<About/>} />
         <Route path="/product" element={<Product/>} />
+        <Route path="/product/:title" element={<OnePage/>} />
+
         
         <Route path='/*' element={<Error/>}/>
       </Routes>

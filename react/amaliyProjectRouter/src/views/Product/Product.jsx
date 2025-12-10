@@ -1,12 +1,12 @@
 import React,{useEffect, useState} from 'react'
-import { NavLink } from 'react-router-dom'
+import { Link,NavLink } from 'react-router-dom'
 function Product() {
     const [product, setProduct]= useState([])
     const [loading, setLoading] = useState(false)
-
+    let [limit , setLimit]= useState(30)
     useEffect(()=>{
         setLoading(true)
-        fetch("https://dummyjson.com/products")
+        fetch("https://dummyjson.com/products?limit="+limit)
         .then((res)=>res.json())
         .then((data)=>{
             setProduct(data.products)
@@ -19,7 +19,7 @@ function Product() {
         {
             !loading&& !product.length?<div>Products not found</div>:product.map((item, index)=>{
                 return(
-                    <div className='product'>
+                    <Link key={item.title} to={"/product/"+item.title} className='product'>
                         <div className="product-imgbox" style={{"width":"400px"}}>
                             <img src={item.thumbnail} width="100%" height="100%" loading='lazy' prefix='true' alt={item.title} />
                         </div>
@@ -34,7 +34,7 @@ function Product() {
                             <button>Buy one click</button>
                             <button>Add to cart</button>
                         </div>
-                    </div>
+                    </Link>
                 )
             })
         }
