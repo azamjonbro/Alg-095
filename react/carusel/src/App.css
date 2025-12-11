@@ -95,3 +95,14 @@ svg{
   background: #0056b3;
 } 
 
+.products{
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+.news-item{
+  width: 300px;
+  word-wrap: break-word;
+  word-break: keep-all;
+}
