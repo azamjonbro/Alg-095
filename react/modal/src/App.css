@@ -1,0 +1,186 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+.container {
+  padding: 40px;
+  background: #f6f7fb;
+  min-height: 100vh;
+}
+
+/* LOADER */
+.loader-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 150px;
+}
+
+.loader {
+  width: 55px;
+  height: 55px;
+  border: 6px solid #ddd;
+  border-top-color: #5a4bff;
+  border-radius: 50%;
+  
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* GRID */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 25px;
+}
+
+/* CARD */
+.product-card {
+  background: #fff;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  transition: 0.3s;
+}
+
+.product-card:hover {
+  transform: translateY(-6px);
+}
+
+.product-card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+}
+
+/* CARD BODY */
+.card-body {
+  padding: 15px;
+}
+
+.card-body h3 {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.card-body p {
+  font-size: 14px;
+  color: #666;
+}
+
+/* FOOTER */
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 12px;
+}
+
+.card-footer span {
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.card-footer button {
+  background: #5a4bff;
+  color: #fff;
+  border: none;
+  padding: 7px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card-footer button:hover {
+  background: #4739e0;
+}
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #4f46e5, #22c55e);
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  background: #fff;
+  padding: 30px;
+  border-radius: 18px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.login-card h2 {
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  margin-bottom: 20px;
+  font-size: 14px;
+}
+
+.field {
+  margin-bottom: 14px;
+}
+
+.field label {
+  font-size: 13px;
+  color: #333;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.field input {
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  outline: none;
+  font-size: 14px;
+}
+
+.field input:focus {
+  border-color: #4f46e5;
+}
+
+.login-btn {
+  width: 100%;
+  padding: 12px;
+  border: none;
+  border-radius: 10px;
+  background: #4f46e5;
+  color: #fff;
+  font-size: 15px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: 0.3s;
+}
+
+.login-btn:hover {
+  background: #4338ca;
+}
+
+.bottom-text {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 13px;
+  color: #666;
+}
+
+.bottom-text span {
+  color: #4f46e5;
+  cursor: pointer;
+  font-weight: 600;
+}
